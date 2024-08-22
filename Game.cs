@@ -40,14 +40,24 @@ class Application : VectorCalc
         {
             if (args.Button == Mouse.Button.Left)
             {
-                CircleShape newCircle = new CircleShape(10)
+                // CircleShape newCircle = new CircleShape(10)
+                // {
+                //     FillColor = Color.Green,
+                // };
+                // newCircle.Origin = new Vector2f(newCircle.Radius, newCircle.Radius);
+                // newCircle.Position = RepositionCircleToInBounds(newCircle);
+
+                // instantiatedShapes.Add(newCircle);
+
+                Ball ball = new Ball(10)
                 {
                     FillColor = Color.Green,
+                    Velocity = new Vector2f(100f, 100f),
                 };
-                newCircle.Origin = new Vector2f(newCircle.Radius, newCircle.Radius);
-                newCircle.Position = RepositionCircleToInBounds(newCircle);
+                ball.Origin = new Vector2f(ball.Radius, ball.Radius);
+                ball.Position = RepositionCircleToInBounds(ball);
 
-                instantiatedShapes.Add(newCircle);
+                instantiatedShapes.Add(ball);
             }
         };
         #endregion
@@ -65,8 +75,6 @@ class Application : VectorCalc
 
     void MainLoop(CircleShape dot)
     {
-        Vector2f velocity = new Vector2f(100f,100f);
-
         while (window.IsOpen)
         {
             float deltaTime = clock.Restart().AsSeconds();
@@ -74,18 +82,18 @@ class Application : VectorCalc
             window.DispatchEvents();
             window.Clear();
 
-            foreach (CircleShape shape in instantiatedShapes)
+            foreach (Ball shape in instantiatedShapes)
             {
                 (bool isColliding, Vector2f newDirection) = IsColliding(shape);
 
                 if (isColliding)
                 {
-                    velocity = -velocity;
+                    shape.Velocity = new Vector2f(100f * newDirection.X, 100f * newDirection.Y);
                 }
 
                 if (hasGravity)
                 {
-                    shape.Position += velocity * deltaTime;
+                    shape.Position += shape.Velocity * deltaTime;
                 }
 
                 window.Draw(shape);
@@ -117,28 +125,30 @@ class Application : VectorCalc
     }
 
 
-    (bool, Vector2f) IsColliding(CircleShape shape)
+    (bool, Vector2f) IsColliding(Ball shape)
     {
         float[] windowBounds = WindowBounds();
 
         Vector2f[] circleBounds = BallBounds.Bounds(shape);
 
-        // return circleBounds[2].Y > windowBounds[2] ||
-        //        circleBounds[0].Y < windowBounds[0] ||
-        //        circleBounds[3].X < windowBounds[3] ||
-        //        circleBounds[1].X > windowBounds[1];
-
-        if(circleBounds[2].Y > windowBounds[2]){
-            return (true, new Vector2f(-1f, -1f));
-        }else if(circleBounds[0].Y < windowBounds[0]){
-            return(true, new Vector2f(-1f, -1f));
-        }else if( circleBounds[3].X < windowBounds[3]){
-            return(true, new Vector2f(-1f, 1f));
-        }else if(circleBounds[1].X > windowBounds[1]){
-            return(true, new Vector2f(-1f, 1f));
+        if (circleBounds[2].Y > windowBounds[2])
+        {
+            return (true, new Vector2f(1f, -1f));
+        }
+        else if (circleBounds[0].Y < windowBounds[0])
+        {
+            return (true, new Vector2f(1f, -1f));
+        }
+        else if (circleBounds[3].X < windowBounds[3])
+        {
+            return (true, new Vector2f(1f, 1f));
+        }
+        else if (circleBounds[1].X > windowBounds[1])
+        {
+            return (true, new Vector2f(1f, 1f));
         }
 
-        return (true, new Vector2f(1f, 1f));
+        return (false, new Vector2f(1f, 1f));
     }
 
 }
