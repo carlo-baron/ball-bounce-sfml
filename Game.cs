@@ -1,5 +1,3 @@
-using System.Numerics;
-using SFML;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
@@ -78,8 +76,9 @@ class Application : VectorCalc
 
             foreach (CircleShape shape in instantiatedShapes)
             {
+                (bool isColliding, Vector2f newDirection) = IsColliding(shape);
 
-                if (IsColliding(shape))
+                if (isColliding)
                 {
                     velocity = -velocity;
                 }
@@ -118,16 +117,28 @@ class Application : VectorCalc
     }
 
 
-    bool IsColliding(CircleShape shape)
+    (bool, Vector2f) IsColliding(CircleShape shape)
     {
         float[] windowBounds = WindowBounds();
 
         Vector2f[] circleBounds = BallBounds.Bounds(shape);
 
-        return circleBounds[2].Y > windowBounds[2] ||
-               circleBounds[0].Y < windowBounds[0] ||
-               circleBounds[3].X < windowBounds[3] ||
-               circleBounds[1].X > windowBounds[1];
+        // return circleBounds[2].Y > windowBounds[2] ||
+        //        circleBounds[0].Y < windowBounds[0] ||
+        //        circleBounds[3].X < windowBounds[3] ||
+        //        circleBounds[1].X > windowBounds[1];
+
+        if(circleBounds[2].Y > windowBounds[2]){
+            return (true, new Vector2f(-1f, -1f));
+        }else if(circleBounds[0].Y < windowBounds[0]){
+            return(true, new Vector2f(-1f, -1f));
+        }else if( circleBounds[3].X < windowBounds[3]){
+            return(true, new Vector2f(-1f, 1f));
+        }else if(circleBounds[1].X > windowBounds[1]){
+            return(true, new Vector2f(-1f, 1f));
+        }
+
+        return (true, new Vector2f(1f, 1f));
     }
 
 }
