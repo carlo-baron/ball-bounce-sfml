@@ -1,7 +1,5 @@
-using SFML;
 using SFML.System;
-using System;
-using System.Reflection.Metadata.Ecma335;
+using System.Numerics;
 
 public abstract class VectorCalc{
     protected float Magnitude(Vector2f vector){
@@ -19,5 +17,9 @@ public abstract class VectorCalc{
 
     protected Vector2f Normal(Vector2f vertex1, Vector2f vertex2){
         return new Vector2f(vertex2.Y - vertex1.Y, vertex2.X - vertex1.X);
+    }
+
+    protected Vector2f Zero(){
+        return new Vector2f(0f, 0f);
     }
 }

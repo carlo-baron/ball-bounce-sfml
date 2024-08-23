@@ -88,12 +88,13 @@ class Application : VectorCalc
 
                 if (isColliding)
                 {
-                    shape.Velocity = new Vector2f(100f * newDirection.X, 100f * newDirection.Y);
+                    shape.Velocity = new Vector2f(shape.Velocity.X * newDirection.X, shape.Velocity.Y * newDirection.Y);
                 }
 
                 if (hasGravity)
                 {
                     shape.Position += shape.Velocity * deltaTime;
+                    Console.WriteLine(shape.Velocity);
                 }
 
                 window.Draw(shape);
@@ -131,22 +132,15 @@ class Application : VectorCalc
 
         Vector2f[] circleBounds = BallBounds.Bounds(shape);
 
-        if (circleBounds[2].Y > windowBounds[2])
+        if (circleBounds[2].Y > windowBounds[2] || circleBounds[0].Y < windowBounds[0])
         {
             return (true, new Vector2f(1f, -1f));
         }
-        else if (circleBounds[0].Y < windowBounds[0])
+        else if (circleBounds[3].X < windowBounds[3] || circleBounds[1].X > windowBounds[1])
         {
-            return (true, new Vector2f(1f, -1f));
+            return (true, new Vector2f(-1f, 1f));
         }
-        else if (circleBounds[3].X < windowBounds[3])
-        {
-            return (true, new Vector2f(1f, 1f));
-        }
-        else if (circleBounds[1].X > windowBounds[1])
-        {
-            return (true, new Vector2f(1f, 1f));
-        }
+
 
         return (false, new Vector2f(1f, 1f));
     }
