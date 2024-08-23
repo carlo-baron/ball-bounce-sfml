@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ballbounce")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eb71e6066c0a86deb8eddea6dcb57324a77ce988")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e17b15ece502b0130dc29d04a880a523bc4ae664")]
 [assembly: System.Reflection.AssemblyProductAttribute("ballbounce")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ballbounce")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

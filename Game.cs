@@ -1,17 +1,20 @@
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+// using System.Drawing;
 class Application : VectorCalc
 {
     uint WindowHeight;
     uint WindowWidth;
     string WindowName;
-    private RenderWindow window;
+    RenderWindow window;
+    
     List<Drawable> instantiatedShapes = new List<Drawable>();
 
     bool hasGravity = false;
     Clock clock = new Clock();
-    // float moveSpeed = 300;
+
+    Random random = new Random();
     public Application(uint windowHeight, uint windowWidth, string windowName)
     {
         WindowHeight = windowHeight;
@@ -40,18 +43,9 @@ class Application : VectorCalc
         {
             if (args.Button == Mouse.Button.Left)
             {
-                // CircleShape newCircle = new CircleShape(10)
-                // {
-                //     FillColor = Color.Green,
-                // };
-                // newCircle.Origin = new Vector2f(newCircle.Radius, newCircle.Radius);
-                // newCircle.Position = RepositionCircleToInBounds(newCircle);
-
-                // instantiatedShapes.Add(newCircle);
-
-                Ball ball = new Ball(10)
+                Ball ball = new Ball(random.Next(10, 25))
                 {
-                    FillColor = Color.Green,
+                    FillColor = new Color((byte)random.Next(256), (byte)random.Next(256), (byte)random.Next(256)),
                     Velocity = new Vector2f(100f, 100f),
                 };
                 ball.Origin = new Vector2f(ball.Radius, ball.Radius);
@@ -94,7 +88,6 @@ class Application : VectorCalc
                 if (hasGravity)
                 {
                     shape.Position += shape.Velocity * deltaTime;
-                    Console.WriteLine(shape.Velocity);
                 }
 
                 window.Draw(shape);
@@ -107,8 +100,6 @@ class Application : VectorCalc
 
     Vector2f RepositionCircleToInBounds(CircleShape circle)
     {
-        Random random = new Random();
-
         int randomX = random.Next((int)circle.Radius, (int)window.Size.X - (int)circle.Radius);
         int randomY = random.Next((int)circle.Radius, (int)WindowHeight - (int)circle.Radius);
 
